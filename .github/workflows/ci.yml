@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -22,5 +26,15 @@ jobs:
       - name: Build with Maven
         run: ./mvnw clean package
 
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Build Docker image
-        run: docker build -t devops-app:${{ github.sha }} .
+        run: docker build -t ghcr.io/alokraghuvanshi/springboot-devops-project:${{ github.sha }} .
+
+      - name: Push Docker image
+        run: docker push ghcr.io/alokraghuvanshi/springboot-devops-project:${{ github.sha }}
