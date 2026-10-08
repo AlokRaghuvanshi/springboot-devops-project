@@ -13,7 +13,7 @@ services:
       timeout: 5s
       retries: 10
   app:
-    image: ghcr.io/alokraghuvanshi/springboot-devops-project:18a436199fc34fe1583ba6d84c17c47499b13fa5
+    image: ghcr.io/alokraghuvanshi/springboot-devops-project:${IMAGE_TAG}
     ports:
       - "9090:8080"
     environment:
