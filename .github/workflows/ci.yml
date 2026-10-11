@@ -48,3 +48,10 @@ jobs:
 
       - name: Verify AWS identity
         run: aws sts get-caller-identity
+
+      - name: Test SSM connection
+        run: |
+          aws ssm send-command \
+            --instance-ids "${{ vars.EC2_INSTANCE_ID }}" \
+            --document-name "AWS-RunShellScript" \
+            --parameters 'commands=["whoami","hostname"]'
